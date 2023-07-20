@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     hcloud = {
-      source = "hetznercloud/hcloud"
+      source  = "hetznercloud/hcloud"
       version = "1.41.0"
     }
   }
@@ -17,20 +17,13 @@ resource "tls_private_key" "remote_management" {
 }
 
 resource "hcloud_ssh_key" "remote_management" {
-  name = "Remote management key"
+  name       = "Remote management key"
   public_key = tls_private_key.remote_management.public_key_openssh
 }
 
-/*
-output "ssh_key" {
-  value = tls_private_key.remote_management.private_key_pem
-  sensitive = true
-}
-*/
-
 resource "local_sensitive_file" "pem_file" {
-  filename = pathexpand("${var.generated_key_name}.pem")
-  file_permission = "600"
+  filename             = pathexpand("${var.generated_key_name}.pem")
+  file_permission      = "600"
   directory_permission = "700"
-  content = tls_private_key.remote_management.private_key_pem
+  content              = tls_private_key.remote_management.private_key_openssh
 }
