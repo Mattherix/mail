@@ -82,6 +82,6 @@ resource "hcloud_server" "mail" {
   }
   
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${local.private_key_path} -e 'pub_key=${hcloud_ssh_key.remote_management.public_key}' install_mail.yml"
+    command = "ssh-keyscan -H ${self.ipv4_address} >> ~/.ssh/known_hosts && ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${local.private_key_path} -e 'pub_key=${hcloud_ssh_key.remote_management.public_key}' install_mail.yml"
   }
 }
