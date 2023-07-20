@@ -1,0 +1,16 @@
+#!/usr/bin/env ansible-playbook
+
+- become: yes
+  hosts: all
+  name: install_mail
+  tasks:
+  - name: Install postfix
+    ansible.builtin.package:
+      update_cache: true
+      name: postfix
+      state: present
+  - name: Start postfix an enable it at boot
+    ansible.builtin.service:
+      name: postfix
+      state: started
+      enabled: true
