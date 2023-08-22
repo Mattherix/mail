@@ -1,0 +1,3 @@
+host: mail
+domain: gmail.com
+hostname: "{{ host }}.{{ domain }}"

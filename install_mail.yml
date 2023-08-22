@@ -3,12 +3,23 @@
 - become: yes
   hosts: all
   name: install_mail
+  vars_files: variables.yml
   tasks:
+  - name: Set a hostname
+    ansible.builtin.hostname:
+      name: {{ hostname }}
   - name: Install postfix
     ansible.builtin.package:
       update_cache: true
       name: postfix
       state: present
+  - name: Configure postfix
+    ansible.builtin.template:
+      src: main.cf.j2
+      dest: /etc/postfix/main.cf
+      owner: root
+      group: root
+      mode: '644'
   - name: Start postfix an enable it at boot
     ansible.builtin.service:
       name: postfix

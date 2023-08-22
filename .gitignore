@@ -6,3 +6,4 @@ terraform.tfstate.backup
 terraform-key-pair
 .terraform.tfstate.lock.info
 terraform-key-pair.pem
+variables.yml
