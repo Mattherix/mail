@@ -14,3 +14,15 @@
       name: postfix
       state: started
       enabled: true
+  - name: Install dotcov
+    ansible.builtin.package:
+      update_cache: true
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - ["dovecot-core", "dovecot-pop3d", "dovecot-imapd"]
+  - name: Start dotcov an enable it at boot
+    ansible.builtin.service:
+      name: dovecot
+      state: started
+      enabled: true
