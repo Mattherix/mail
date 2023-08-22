@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "terraform"
+        "terraform",
+        "ansible"
     ]
 }
