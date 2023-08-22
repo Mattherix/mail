@@ -85,3 +85,15 @@ resource "hcloud_server" "mail" {
     command = "ssh-keyscan -H ${self.ipv4_address} >> ~/.ssh/known_hosts && ansible-playbook -u root -i '${self.ipv4_address},' --private-key ${local.private_key_path} -e 'pub_key=${hcloud_ssh_key.remote_management.public_key}' install_mail.yml"
   }
 }
+
+# Step 3 : Reverse Dns
+resource "hcloud_rdns" "mail_ipv4" {
+  server_id  = hcloud_server.mail.id
+  ip_address = hcloud_server.mail.ipv4_address
+  dns_ptr    = local.mail_subdomain
+}
+resource "hcloud_rdns" "mail_ipv6" {
+  server_id  = hcloud_server.mail.id
+  ip_address = hcloud_server.mail.ipv6_address
+  dns_ptr    = local.mail_subdomain
+}
