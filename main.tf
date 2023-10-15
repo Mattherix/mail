@@ -4,11 +4,19 @@ terraform {
       source  = "hetznercloud/hcloud"
       version = "1.41.0"
     }
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "4.12.0"
+    }
   }
 }
 
 provider "hcloud" {
   token = var.hcloud_token
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
 }
 
 # Step 1: Create ssh key
@@ -96,4 +104,20 @@ resource "hcloud_rdns" "mail_ipv6" {
   server_id  = hcloud_server.mail.id
   ip_address = hcloud_server.mail.ipv6_address
   dns_ptr    = local.mail_subdomain
+}
+
+# Step 4 : DNS
+resource "cloudflare_record" "mail_server_ipv4" {
+  zone_id = var.cloudflare_zone_id
+  name    = "mail"
+  value   = hcloud_server.mail.ipv4_address
+  type    = "A"
+  ttl     = 3600
+}
+resource "cloudflare_record" "mail_server_ipv6" {
+  zone_id = var.cloudflare_zone_id
+  name    = "mail"
+  value   = hcloud_server.mail.ipv6_address
+  type    = "AAAA"
+  ttl     = 3600
 }

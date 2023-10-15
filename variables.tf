@@ -3,6 +3,16 @@ variable "hcloud_token" {
   sensitive = true
   description = "The hcloud token of your account ; it must be read and write"
 }
+variable "cloudflare_api_token" {
+  type = string
+  sensitive = true
+  description = "The cloudflare token of your account"
+}
+
+variable "cloudflare_zone_id" {
+  type = string
+  description = "The cloudflare zone associated with the domain name"
+}
 
 variable "generated_key_name" {
   type        = string

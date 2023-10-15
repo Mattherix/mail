@@ -1,0 +1,4 @@
+hcloud_token = ""
+cloudflare_api_token = ""
+domain = ""
+cloudflare_zone_id = ""
